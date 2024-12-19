@@ -27,10 +27,16 @@ $config = [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => \yii\symfonymailer\Mailer::class,
-            'viewPath' => '@app/mail',
-            // send all mails to a file by default.
-            'useFileTransport' => true,
+            'class' => 'yii\swiftmailer\Mailer',
+            'useFileTransport' => true,  // тут можно включить
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.example.com',
+                'username' => 'your-email@example.com',
+                'password' => 'your-password',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -42,14 +48,15 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'POST requests' => 'request/create',
+                'GET requests' => 'request/index',
+                'PUT requests/<id:\d+>' => 'request/update',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
