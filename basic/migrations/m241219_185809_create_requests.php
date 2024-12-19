@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m241219_185809_create_bid
  */
-class m241219_185809_create_bid extends Migration
+class m241219_185809_create_requests extends Migration
 {
     /**
      * {@inheritdoc}
