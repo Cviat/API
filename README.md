@@ -32,4 +32,4 @@ cd your-project-folder
 
 в params.php можно настроить mailer . по дефолту он выключен в         'useFileTransport' => true,  в  web.php
 
-Токен : 1xFf3sjJWfccOCBZCk3yEC7vvdrj2tJRH0paDjQx5KO6MeiSbGWzVl8TH3VSJFfc
+    Токен : 1xFf3sjJWfccOCBZCk3yEC7vvdrj2tJRH0paDjQx5KO6MeiSbGWzVl8TH3VSJFfc
