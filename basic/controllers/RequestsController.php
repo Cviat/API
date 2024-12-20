@@ -9,12 +9,12 @@ use yii\web\NotFoundHttpException;
 use yii\filters\Cors;
 use yii\web\Response;
 
-// TODO вроде в тз не сказано про JWT , но по идее оно тут нужно
+
 
 
 class RequestsController extends Controller
 {
-    // Добавим фильтрацию CORS
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
@@ -33,6 +33,17 @@ class RequestsController extends Controller
 
         return $behaviors;
     }
+
+    /**
+     * @SWG\SecurityScheme(
+     *     securityDefinition="BearerAuth",
+     *     type="apiKey",
+     *     in="header",
+     *     name="Authorization",
+     *     description="Введите токен в формате: Bearer {ваш_токен}"
+     * )
+     */
+
 
     /**
      * @SWG\Post(
@@ -93,6 +104,7 @@ class RequestsController extends Controller
      *     path="/requests",
      *     tags={"Requests"},
      *     summary="Получение списка заявок",
+     *     security={{"BearerAuth": {}}},
      *     @SWG\Parameter(
      *         name="status",
      *         in="query",
@@ -119,7 +131,9 @@ class RequestsController extends Controller
      */
     public function actionIndex($status = null, $date_from = null, $date_to = null)
     {
-        $query = Request::find(); // TODO serchModel
+        $this->checkAdminAccess();
+
+        $query = Request::find();  // TODO serchModel
 
         if ($status) {
             $query->andWhere(['status' => $status]);
@@ -149,6 +163,7 @@ class RequestsController extends Controller
      *     path="/requests/{id}",
      *     tags={"Requests"},
      *     summary="Обновление заявки",
+     *     security={{"BearerAuth": {}}},
      *     @SWG\Parameter(
      *         name="id",
      *         in="path",
@@ -177,6 +192,9 @@ class RequestsController extends Controller
      */
     public function actionUpdate($id)
     {
+
+        $this->checkAdminAccess();
+
         $request = $this->findRequestModel($id);
 
         $requestData = Yii::$app->request->post();
@@ -221,4 +239,18 @@ class RequestsController extends Controller
 
         throw new NotFoundHttpException('Заявка не найдена');
     }
+
+    protected function checkAdminAccess()
+    {
+        $token = Yii::$app->request->headers->get('Authorization');
+        $expectedToken = 'Bearer ' . Yii::$app->params['adminApiKey']; //  токен
+
+        if ($token !== $expectedToken) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            Yii::$app->response->statusCode = 403;
+            Yii::$app->response->data = ['status' => 'error', 'message' => 'Нет доступа'];
+            Yii::$app->end();
+        }
+    }
+
 }

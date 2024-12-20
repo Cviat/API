@@ -1,7 +1,5 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'adminApiKey' => '1xFf3sjJWfccOCBZCk3yEC7vvdrj2tJRH0paDjQx5KO6MeiSbGWzVl8TH3VSJFfc',
 ];
