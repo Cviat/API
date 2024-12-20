@@ -7,14 +7,18 @@ use Yii;
 /**
  * This is the model class for table "requests".
  *
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string $status
- * @property string $message
- * @property string|null $comment
- * @property string $created_at
- * @property string|null $updated_at
+ * @SWG\Definition(
+ *     definition="Request",
+ *     required={"name", "email", "message"},
+ *     @SWG\Property(property="id", type="integer", description="Идентификатор заявки"),
+ *     @SWG\Property(property="name", type="string", description="Имя пользователя"),
+ *     @SWG\Property(property="email", type="string", description="Email пользователя"),
+ *     @SWG\Property(property="status", type="string", description="Статус заявки"),
+ *     @SWG\Property(property="message", type="string", description="Сообщение пользователя"),
+ *     @SWG\Property(property="comment", type="string", description="Комментарий к заявке"),
+ *     @SWG\Property(property="created_at", type="string", format="date-time", description="Дата создания"),
+ *     @SWG\Property(property="updated_at", type="string", format="date-time", description="Дата обновления")
+ * )
  */
 class Request extends \yii\db\ActiveRecord
 {

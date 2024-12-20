@@ -15,6 +15,10 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '6hT5GgPcHDPoJkEmu_8IpTSLaduPuMBA',
+            'enableCsrfValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',  // Включение поддержки JSON
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -31,13 +35,14 @@ $config = [
             'useFileTransport' => true,  // тут можно включить
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.example.com',
-                'username' => 'your-email@example.com',
-                'password' => 'your-password',
+                'host' => 'smtp.gmail.com',
+                'username' => '', // тут почта
+                'password' => '',   // тут нужен пароль почты с которой будет рассылка
                 'port' => '587',
                 'encryption' => 'tls',
             ],
         ],
+
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -50,11 +55,15 @@ $config = [
         'db' => $db,
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
-                'POST requests' => 'request/create',
-                'GET requests' => 'request/index',
-                'PUT requests/<id:\d+>' => 'request/update',
+                '' => 'site/docs', // интерфейса в программе все равно нет , пусть хоть на api смотрят
+                'GET,HEAD site/docs' => 'site/docs',
+                'GET,HEAD site/json-schema' => 'site/json-schema',
+                'POST requests' => 'requests/create',
+                'GET requests' => 'requests/index',
+                'PUT requests/<id:\d+>' => 'requests/update',
             ],
         ],
     ],
