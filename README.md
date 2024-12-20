@@ -16,17 +16,17 @@ cd your-project-folder
 
 Установите зависимости с помощью Composer:
 
-composer install
+    composer install
 
 Настройте параметры подключения к базе данных в файле config/db.php.
 
 Примените миграции для создания таблиц:
 
-php yii migrate
+    php yii migrate
 
 Запустите проект на сервере:
 
-php yii serve
+    php yii serve
 
 Откройте API в браузере по адресу: http://localhost:8080.
 
