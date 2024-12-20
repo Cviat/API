@@ -32,16 +32,18 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            'useFileTransport' => true,  // тут можно включить
+            'useFileTransport' => true,  // временно для тестирования
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.gmail.com',
-                'username' => '', // тут почта
-                'password' => '',   // тут нужен пароль почты с которой будет рассылка
-                'port' => '587',
-                'encryption' => 'tls',
+                'host' => Yii::$app->params['mailer']['host'],
+                'username' => Yii::$app->params['mailer']['username'],
+                'password' => Yii::$app->params['mailer']['password'],
+                'port' => Yii::$app->params['mailer']['port'],
+                'encryption' => Yii::$app->params['mailer']['encryption'],
             ],
         ],
+
+
 
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
