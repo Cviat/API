@@ -133,30 +133,18 @@ class RequestsController extends Controller
     {
         $this->checkAdminAccess();
 
-        $query = Request::find();  // TODO serchModel
+        $searchModel = new \app\models\RequestSearch();
 
-        if ($status) {
-            $query->andWhere(['status' => $status]);
-        }
 
-        if ($date_from) {
-            $dateFrom = strtotime($date_from . ' 00:00:00');
-            if ($dateFrom !== false) {
-                $query->andWhere(['>=', 'created_at', date('Y-m-d H:i:s', $dateFrom)]);
-            }
-        }
+        $requests = $searchModel->search($status, $date_from, $date_to);
 
-        // Фильтр по дате окончания
-        if ($date_to) {
-            $dateTo = strtotime($date_to . ' 23:59:59');
-            if ($dateTo !== false) {
-                $query->andWhere(['<=', 'created_at', date('Y-m-d H:i:s', $dateTo)]);
-            }
-        }
-
-        $requests = $query->all();
         return $this->asJson($requests);
     }
+
+
+
+
+
 
     /**
      * @SWG\Put(
@@ -205,10 +193,11 @@ class RequestsController extends Controller
         }
 
 
-        $request->status = 'Completed';
+
         $request->comment = $requestData['comment'];
 
         if ($request->save()) {
+            $request->status = 'Resolved';
             // Отправка email
             Yii::$app->mailer->compose()
                 ->setFrom('admin@example.com')
